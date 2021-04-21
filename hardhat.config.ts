@@ -2,13 +2,14 @@ import { task, HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 
 require("dotenv").config();
 
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID;
 const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY;
 const MAINNET_PRIVATE_KEY = process.env.MAINNET_PRIVATE_KEY;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -41,15 +42,19 @@ const config: HardhatUserConfig = {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [`0x${RINKEBY_PRIVATE_KEY}`],
-      gasPrice: 8000000000,
+      gasPrice: ethers.utils.parseUnits("200", "gwei").toNumber(),
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [`0x${MAINNET_PRIVATE_KEY}`],
+      gasPrice: ethers.utils.parseUnits("200", "gwei").toNumber(),
     },
     ganache: {
       url: "http://127.0.0.1:8555",
     },
+  },
+  etherscan: {
+    apiKey: ETHERSCAN_API_KEY,
   },
   solidity: "0.7.6",
 };

@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "npx hardhat compile",
-    "test": "npx hardhat test"
+    "test": "npx hardhat test",
+    "deploy:rinkeby": "npx hardhat --network rinkeby deploy",
+    "deploy:mainnet": "npx hardhat --network mainnet deploy",
+    "deploy:mainnet:verify": "npx hardhat verify --contract contracts/ForceToken.sol:ForceToken --network mainnet 0x2C31b10ca416b82Cec4c5E93c615ca851213d48D \"Force DAO\" \"FORCE\""
+
   },
   "author": "",
   "license": "MIT",
