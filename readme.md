@@ -35,7 +35,7 @@ npm run deploy:mainnet:verify
 
 # Social
 
-[forcedao.com](https://forcedao.com/)
-[Discord](https://discord.gg/VURZsauKkm)
-[Twitter](https://twitter.com/force_dao)
-[Medium](https://forcedao.medium.com/)
+  - [forcedao.com](https://forcedao.com/)
+  - [Discord](https://discord.gg/VURZsauKkm)
+  - [Twitter](https://twitter.com/force_dao)
+  - [Medium](https://forcedao.medium.com/)
