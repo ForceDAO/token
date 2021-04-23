@@ -8,7 +8,8 @@
     "test": "npx hardhat test",
     "deploy:rinkeby": "npx hardhat --network rinkeby deploy",
     "deploy:mainnet": "npx hardhat --network mainnet deploy",
-    "deploy:mainnet:verify": "npx hardhat verify --contract contracts/ForceToken.sol:ForceToken --network mainnet 0x2C31b10ca416b82Cec4c5E93c615ca851213d48D \"Force DAO\" \"FORCE\""
+    "deploy:mainnet:verify": "npx hardhat verify --contract contracts/ForceToken.sol:ForceToken --network mainnet 0x2C31b10ca416b82Cec4c5E93c615ca851213d48D \"Force DAO\" \"FORCE\"",
+    "deploy:mainnet:handover": "npx hardhat movetomultisig --network mainnet --contractaddress 0x2C31b10ca416b82Cec4c5E93c615ca851213d48D --multisig 0x0aF0625b772472d18825c104b9daE35f76d3f6E0"
 
   },
   "author": "",

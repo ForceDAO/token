@@ -30,6 +30,58 @@ task("deploy", "Deploys new token contract")
     console.log("Force DAO Token deployed to:", forceToken.address);
   });
 
+task("movetomultisig", "Send Control and Tokens to Multisig")
+  .addParam("contractaddress", "The token public address")
+  .addParam("multisig", "The account to take over control")
+  .setAction(async (args, hre) => {
+    const { utils, constants } = hre.ethers;
+
+    // Get signer address.
+    const [mainSigner] = await hre.ethers.getSigners();
+    
+    // Get contract
+    const forceToken = await hre.ethers.getContractAt(
+      "ForceToken",
+      args.contractaddress
+    );
+
+    // Give Multisig Control
+    await forceToken.grantRole(
+      utils.id("SNAPSHOT_ROLE"),
+      args.multisig,
+      { gasLimit: 100000 }
+    );
+
+    await forceToken.grantRole(constants.HashZero, args.multisig, {
+      gasLimit: 100000,
+    });
+
+
+    // Renounce Control from Deployer
+    await forceToken.renounceRole(
+      utils.id("SNAPSHOT_ROLE"),
+      mainSigner.address,
+      {
+        gasLimit: 100000,
+      }
+    );
+    await forceToken.renounceRole(
+      constants.HashZero,
+      mainSigner.address,
+      {
+        gasLimit: 100000,
+      }
+    );
+
+    // Transfer Tokens
+    await forceToken.transfer(args.multisig, utils.parseEther("100000000"), {
+      gasLimit: 100000,
+    }); 
+
+    console.log("Controlling account set to:", args.multisig);
+  });
+
+
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 /**
@@ -47,7 +99,7 @@ const config: HardhatUserConfig = {
     mainnet: {
       url: `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [`0x${MAINNET_PRIVATE_KEY}`],
-      gasPrice: ethers.utils.parseUnits("200", "gwei").toNumber(),
+      gasPrice: ethers.utils.parseUnits("150", "gwei").toNumber(),
     },
     ganache: {
       url: "http://127.0.0.1:8555",
